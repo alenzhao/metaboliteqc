@@ -44,3 +44,25 @@ summarize_NAs <- function(mat, by) {
 count_NAs <- function(x) {
     sum(is.na(x))
 }
+
+#' Histogram of number of NAs
+#'
+#' @param mat Matrix
+#' @param by An integer.  Whether to count NAs by rows or by columns
+#'     (1 = rows, 2 = columns).
+#' @param \dots Arguments passed on to \code{\link[graphics]{hist}}
+#' @param main Title for plot
+#' @param xlab Label for x-axis
+#' @return Returns \code{NULL} invisibly.
+#' @export
+hist_NAs <- function(mat, by, ..., main = NULL, xlab = NULL) {
+    if (is.null(main))
+        main <- "Histogram of number of NAs"
+    if (is.null(xlab))
+        xlab <- "Number of NAs"
+    d <- summarize_NAs(mat, by)
+    hist(d$missings, ..., main = main, xlab = xlab)
+    rug(d$missings, side = 3, ticksize = -.02)
+    box()
+    invisible()
+}
