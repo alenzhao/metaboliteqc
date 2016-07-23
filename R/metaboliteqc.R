@@ -14,3 +14,12 @@ copy_missing_values <- function(from, to) {
     to[missing_values] <- NA
     to
 }
+
+#' Count number of NAs
+#'
+#' @param x An object
+#' @return Number of NAs in \code{x}.
+#' @export
+count_NAs <- function(x) {
+    sum(is.na(x))
+}
