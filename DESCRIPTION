@@ -1,0 +1,13 @@
+Package: metaboliteqc
+Type: Package
+Title: metaboliteqc --- Quality controling metabolite data
+Version: 0.0.0.9000
+Authors@R: person("Clemens", "Baumbach", role = c("aut", "cre"),
+    email = "clemens.baumbach@gmx.net")
+Description: This package contains functions that are useful when
+    quality controling metabolite data.
+Suggests:
+    testthat
+License: GPL (>= 2)
+LazyData: TRUE
+RoxygenNote: 5.0.1
