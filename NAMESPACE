@@ -2,3 +2,4 @@
 
 export(copy_NAs)
 export(count_NAs)
+export(summarize_NAs)
