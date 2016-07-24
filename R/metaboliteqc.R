@@ -66,3 +66,21 @@ hist_NAs <- function(mat, by, ..., main = NULL, xlab = NULL) {
     box()
     invisible()
 }
+
+#' Apply a function columnwise to groups of rows
+#'
+#' @param f Function
+#' @param mat Matrix
+#' @param by Factor of length \code{nrow(mat)} used to group rows
+#' @param \dots Arguments passed on to \code{f}
+#' @return A matrix with \code{ncol(mat)} columns and
+#'     \code{length(unique(by)) * n} rows, where \code{n} is the
+#'     length of the result returned by \code{f}.
+#' @export
+columnwise <- function(f, mat, by, ...) {
+    g <- function(x) {
+        do.call(f, c(list(x), list(...)))
+    }
+    matrices <- split.data.frame(mat, by)
+    do.call(rbind, lapply(matrices, apply, 2, g))
+}
