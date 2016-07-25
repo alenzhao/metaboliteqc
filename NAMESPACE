@@ -2,6 +2,7 @@
 
 export(columnwise)
 export(copy_NAs)
+export(correct_for_factor)
 export(count_NAs)
 export(count_below_percentile)
 export(hist_NAs)

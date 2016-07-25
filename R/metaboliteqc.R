@@ -184,3 +184,34 @@ replace_NAs_with_column_means <- function(mat) {
 replace_NAs_with_row_means <- function(mat) {
     t(replace_NAs_with_column_means(t(mat)))
 }
+
+#' Correct metabolite measurements for a factor
+#'
+#' Replace the measurements of every metabolite by the residuals from
+#' regressing the metabolite on \code{x}, where \code{x} is converted
+#' to a factor.
+#'
+#' @param mat Matrix with samples as columns and metabolites as rows
+#' @param x Factor for which to correct the metabolite measurements in
+#'     \code{mat}
+#' @return A matrix of the same dimensions as \code{mat} where every
+#'     metabolite's measurements were replaced by the residuals from
+#'     regressing the metabolite on the \code{x} treated as a factor.
+#'     If a metabolite consists only of NAs, the residuals for that
+#'     metabolite will also be NAs.  The same happens when a
+#'     metabolite has no valid variance (because there is only a
+#'     single non-NA measurement) or when the metabolite has zero
+#'     variance.
+#' @export
+correct_for_factor <- function(mat, x) {
+    compute_residuals <- function(xs) {
+        variance <- var(xs, na.rm = TRUE)
+        if (all(is.na(xs)) || is.na(variance) || variance == 0)
+            return(all_missing)
+        residuals(lm(xs ~ factor(x), na.action = na.exclude))
+    }
+    all_missing <- rep_len(NA, ncol(mat))
+    result <- t(apply(mat, 1, compute_residuals))
+    colnames(result) <- colnames(mat)
+    result
+}
