@@ -215,3 +215,26 @@ correct_for_factor <- function(mat, x) {
     colnames(result) <- colnames(mat)
     result
 }
+
+#' Select rows/columns of a matrix using a predicate
+#'
+#' @param predicate A function taking a row/column as first argument
+#'     and returning \code{TRUE} or \code{FALSE}
+#' @param mat Matrix
+#' @param margin Whether to select rows or columns (1 = rows, 2 =
+#'     columns).
+#' @param \dots Passed on to \code{predicate}
+#' @return If \code{margin} is 1, a matrix with the same number of
+#'     columns as \code{mat} and including all rows of \code{mat} for
+#'     which \code{predicate} returned \code{TRUE}.  If \code{margin}
+#'     is 2, a matrix with the same number of rows as \code{mat} and
+#'     including all columns of \code{mat} for which \code{predicate}
+#'     returned \code{TRUE}.
+#' @export
+select_if <- function(predicate, mat, margin, ...) {
+    selected <- apply(mat, margin, predicate, ...)
+    if (margin == 1)
+        mat[selected, , drop = FALSE]
+    else
+        mat[, selected, drop = FALSE]
+}
