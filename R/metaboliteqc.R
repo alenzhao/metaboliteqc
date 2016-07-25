@@ -109,3 +109,57 @@ count_below_percentile <- function(mat, by, f, percentile, ...) {
     }))
     apply(low, 2, sum, na.rm = TRUE)
 }
+
+#' Show how many samples have low measurements in how many groups
+#'
+#' Plot the number of samples for which a given number of groups has
+#' mean metabolite measurements below a given percentile.
+#'
+#' @param mat Matrix with samples as columns and metabolites as rows
+#' @param by Factor of length \code{nrow(mat)} used to group rows
+#' @param percentiles Integer vector with numbers between 0 and 100.
+#' @param by_label Label used in plot annotations to refer to the
+#'     groups defined by \code{by}
+#' @param xlim Limits plotting range on x-axis
+#' @param ylim Limits plotting range on y-axis
+#' @details Algorithm: For every sample and every group of rows the
+#'     mean metabolite measurement is computed.  This results in every
+#'     sample having one value per group (the mean metabolite
+#'     measurement).  We then count for every sample the number of
+#'     groups in which the sample's mean metabolite measurement is
+#'     less that or equal to the given percentile of the distribution
+#'     of all mean metabolite measurements in that group.  Finally we
+#'     plot the number of groups N against the number of samples with
+#'     mean metabolite measurements less than or equal to the given
+#'     percentile in N groups.
+#' @return Returns \code{NULL} invisibly.
+#' @export
+plot_samples_with_low_metabolites <- function(mat, by, percentiles, by_label = NULL, xlim = NULL, ylim = NULL) {
+    number_of_categories <- length(unique(by))
+    xs <- lapply(percentiles, function(percentile) {
+        x <- count_below_percentile(mat, by, mean, percentile, na.rm = TRUE)
+        f <- factor(x, levels = seq(0, number_of_categories))
+        tbl <- table(f)
+        data.frame(categories = as.integer(names(tbl)), persons = as.integer(tbl))
+    })
+    if (is.null(by_label))
+        by_label <- "categories"
+    if (is.null(xlim))
+        xlim <- c(0, number_of_categories)
+    if (is.null(ylim))
+        ylim <- c(0, do.call(max, lapply(xs, `[[`, "persons")))
+    plot(1, type = "n", xlim = xlim, ylim = ylim,
+        xlab = sprintf("Number of %s (N = %d) with low metabolites", by_label, number_of_categories),
+        ylab = sprintf("Number of samples (N = %d)", ncol(mat)),
+        main = sprintf("Counting samples by number of %s with low metabolites", by_label))
+    pch <- rep_len(c(21, 24, 22, 25, 23), length(xs))
+    transparent_gray <- rgb(0, 0, 0, .5)
+    bg <- rep_len(c("white", transparent_gray), length(xs))
+    for (i in seq_along(xs)) {
+        x <- xs[[i]]
+        lines(x$categories, x$persons, type = "b", pch = pch[i], bg = bg[i])
+    }
+    legend("topright", pch = pch[seq_along(xs)], pt.bg = bg[seq_along(xs)],
+        legend = paste("mean <", percentiles, "% percentile"))
+    invisible()
+}
