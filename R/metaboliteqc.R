@@ -163,3 +163,24 @@ plot_samples_with_low_metabolites <- function(mat, by, percentiles, by_label = N
         legend = paste("mean <", percentiles, "% percentile"))
     invisible()
 }
+
+#' Replace missing values with column/row means
+#'
+#' @param mat Matrix
+#' @return A matrix just like \code{mat} but with NAs in column/row k
+#'     replaced by the mean over column/row k.
+#' @export
+replace_NAs_with_column_means <- function(mat) {
+    apply(mat, 2, function(x) {
+        missings <- is.na(x)
+        if (any(missings))
+            x[missings] <- mean(x, na.rm = TRUE)
+        x
+    })
+}
+
+#' @rdname replace_NAs_with_column_means
+#' @export
+replace_NAs_with_row_means <- function(mat) {
+    t(replace_NAs_with_column_means(t(mat)))
+}
