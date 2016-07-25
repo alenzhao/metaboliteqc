@@ -3,5 +3,6 @@
 export(columnwise)
 export(copy_NAs)
 export(count_NAs)
+export(count_below_percentile)
 export(hist_NAs)
 export(summarize_NAs)

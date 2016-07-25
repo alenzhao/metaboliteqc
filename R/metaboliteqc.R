@@ -84,3 +84,28 @@ columnwise <- function(f, mat, by, ...) {
     matrices <- split.data.frame(mat, by)
     do.call(rbind, lapply(matrices, apply, 2, g))
 }
+
+#' Count number of groups with measurements below percentile per sample
+#'
+#' @param mat Matrix with samples as columns and metabolites as rows
+#' @param by Factor of length \code{nrow(mat)} used to group rows
+#' @param f Function to "condense" the measurements of a sample for a
+#'     given group of rows to a single number
+#'     (\code{\link[base]{mean}}, \code{\link[stats]{median}},
+#'     \code{\link[base]{min}}, etc.)
+#' @param percentile A number between 0 and 100.
+#' @param \dots Passed on to \code{f}
+#' @return A integer vector with \code{colnames(mat)} as names
+#'     containing the number of categories, that is the levels of
+#'     \code{by}, for which a sample has measurements (as "condensed"
+#'     by \code{f}) below \code{percentile}.  The percentiles are
+#'     computed separately for every metabolite over the "condensed"
+#'     metabolite measurements of all samples.
+#' @export
+count_below_percentile <- function(mat, by, f, percentile, ...) {
+    values <- columnwise(f, mat, by, ...)
+    low <- t(apply(values, 1, function(x) {
+        x <= quantile(x, percentile / 100, na.rm = TRUE)
+    }))
+    apply(low, 2, sum, na.rm = TRUE)
+}
