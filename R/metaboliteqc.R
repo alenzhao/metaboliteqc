@@ -289,3 +289,15 @@ draw_box <- function(stats, width, at) {
         y1 = stats[3])
     invisible()
 }
+
+#' Draw boxplot
+#'
+#' @param stats Output of \code{\link[grDevices]{boxplot.stats}}
+#' @param at x-coordinate of the boxplot
+#' @return Returns \code{NULL} invisibly.
+draw_boxplot <- function(stats, at) {
+    draw_box(stats$stats, .6, at)
+    draw_whiskers(stats$stats, .4, at)
+    draw_outliers(stats$out, at)
+    invisible()
+}
