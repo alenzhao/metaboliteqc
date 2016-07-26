@@ -267,3 +267,25 @@ draw_whiskers <- function(stats, width, at) {
     segments(x0 = at - width / 2, x1 = at + width / 2, y0 = stats[5])
     invisible()
 }
+
+#' Draw box for boxplot
+#'
+#' @param stats Numeric vector of length 5 containing the extreme of
+#'     the lower whisker, the lower `hinge', the media, the upper
+#'     `hinge' and the extreme of the upper whisker (see also
+#'     \code{\link[grDevices]{boxplot.stats}}).
+#' @param width Width of the box
+#' @param at x-coordinate of the (center of the) box
+#' @return Returns \code{NULL} invisibly.
+draw_box <- function(stats, width, at) {
+    rect(xleft = at - width / 2,
+        xright = at + width / 2,
+        ybottom = stats[2],
+        ytop = stats[4],
+        border = "black")
+    segments(x0 = at - width / 2,
+        x1 = at + width / 2,
+        y0 = stats[3],
+        y1 = stats[3])
+    invisible()
+}
