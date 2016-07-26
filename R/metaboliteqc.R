@@ -250,3 +250,20 @@ draw_outliers <- function(outliers, at) {
     points(rep_len(at, length(outliers)), outliers, pch = ".")
     invisible()
 }
+
+#' Draw whiskers for boxplot
+#'
+#' @param stats Numeric vector of length 5 containing the extreme of
+#'     the lower whisker, the lower `hinge', the media, the upper
+#'     `hinge' and the extreme of the upper whisker (see also
+#'     \code{\link[grDevices]{boxplot.stats}}).
+#' @param width Width of horizontal endings of whiskers
+#' @param at x-coordinate of whiskers
+#' @return Returns \code{NULL} invisibly.
+draw_whiskers <- function(stats, width, at) {
+    segments(x0 = at, y0 = stats[1], y1 = stats[2])
+    segments(x0 = at, y0 = stats[4], y1 = stats[5])
+    segments(x0 = at - width / 2, x1 = at + width / 2, y0 = stats[1])
+    segments(x0 = at - width / 2, x1 = at + width / 2, y0 = stats[5])
+    invisible()
+}
