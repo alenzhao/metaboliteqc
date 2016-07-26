@@ -301,3 +301,29 @@ draw_boxplot <- function(stats, at) {
     draw_outliers(stats$out, at)
     invisible()
 }
+
+#' Draw boxplots for subsets of columns
+#'
+#' @param mat Matrix
+#' @param by Factor of length \code{ncol(mat)} used to group columns
+#'     into subsets
+#' @param ylab Label for y-axis
+#' @param ylim Range of y-axis
+#' @return Returns \code{NULL} invisibly.
+#' @export
+byboxplot <- function(mat, by, ylab, ylim = NULL) {
+    xs <- lapply(split.data.frame(t(mat), by), as.vector)
+    stats <- lapply(xs, boxplot.stats)
+    if (is.null(ylim))
+        ylim <- range(xs, na.rm = TRUE)
+    xlim <- c(1, length(xs))
+    par(mar = c(0, 3, 0, 3))
+    plot(1, xlim = xlim, ylim = ylim, type = "n", axes = FALSE, ann = FALSE)
+    for (i in seq_along(stats)) {
+        draw_boxplot(stats[[i]], at = i)
+    }
+    mtext(ylab, side = 2, line = 1)
+    axis(4)
+    box()
+    invisible()
+}
