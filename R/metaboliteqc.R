@@ -358,3 +358,26 @@ bybyboxplot <- function(mat, by.x, by.y, main = NULL, ylim = NULL) {
     title(main, line = 4, outer = TRUE, cex.main = 1.5)
     invisible()
 }
+
+#' Find indices of cells that satisfy a predicate
+#'
+#' @param mat Matrix
+#' @param margin Whether to apply \code{predicate} to rows or to
+#'     columns (1 = rows, 2 = columns)
+#' @param predicate A function that takes a vector (a row or a column
+#'     of \code{mat}) and returns a logical vector of the same length
+#' @param \dots Passed on to \code{predicate}
+#' @details Note that \code{predicate} can use information on all
+#'     elements in a row (column) to decide whether a particular
+#'     element of the row (column) satisfies the predicate or not.
+#' @return A two-column character matrix that can be used as index to
+#'     \code{mat} to extract elements that satisfy \code{predicate}.
+#' @export
+find_cell_indices <- function(mat, margin, predicate, ...) {
+    x <- apply(mat, margin, predicate, ...)
+    if (margin == 1L)
+        x <- t(x)
+    x[is.na(x)] <- FALSE
+    cbind(rownames(x)[row(x)[x]],
+        colnames(x)[col(x)[x]])
+}
