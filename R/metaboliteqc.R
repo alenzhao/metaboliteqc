@@ -238,3 +238,15 @@ select_if <- function(predicate, mat, margin, ...) {
     else
         mat[, selected, drop = FALSE]
 }
+
+#' Draw outliers for boxplot
+#'
+#' @param outliers y-coordinates of outliers
+#' @param at Length-1 x-coordinate of outliers
+#' @return Returns \code{NULL} invisibly.
+draw_outliers <- function(outliers, at) {
+    if (length(outliers) == 0)
+        return()
+    points(rep_len(at, length(outliers)), outliers, pch = ".")
+    invisible()
+}
