@@ -399,3 +399,17 @@ write.delim <- function(x, file, ...) {
     write.table(x, file, quote = FALSE, sep = "\t", ...)
     invisible()
 }
+
+#' Mark outliers
+#'
+#' @param x A vector of numbers
+#' @return A logical vector of the same length as \code{x} where
+#'     elements are \code{TRUE} if the corresponding element of
+#'     \code{x} is an outlier among the the values in \code{x}, and
+#'     otherwise \code{FALSE}.
+#' @export
+mark_outliers <- function(x) {
+    mean <- mean(x, na.rm = TRUE)
+    sd <- sd(x, na.rm = TRUE)
+    abs(x - mean) > 4 * sd
+}
