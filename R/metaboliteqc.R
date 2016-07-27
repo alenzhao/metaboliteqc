@@ -122,6 +122,7 @@ count_below_percentile <- function(mat, by, f, percentile, ...) {
 #'     groups defined by \code{by}
 #' @param xlim Limits plotting range on x-axis
 #' @param ylim Limits plotting range on y-axis
+#' @param main Title
 #' @details Algorithm: For every sample and every group of rows the
 #'     mean metabolite measurement is computed.  This results in every
 #'     sample having one value per group (the mean metabolite
@@ -134,7 +135,7 @@ count_below_percentile <- function(mat, by, f, percentile, ...) {
 #'     percentile in N groups.
 #' @return Returns \code{NULL} invisibly.
 #' @export
-plot_samples_with_low_metabolites <- function(mat, by, percentiles, by_label = NULL, xlim = NULL, ylim = NULL) {
+plot_samples_with_low_metabolites <- function(mat, by, percentiles, by_label = NULL, xlim = NULL, ylim = NULL, main = NULL) {
     number_of_categories <- length(unique(by))
     xs <- lapply(percentiles, function(percentile) {
         x <- count_below_percentile(mat, by, mean, percentile, na.rm = TRUE)
@@ -148,10 +149,12 @@ plot_samples_with_low_metabolites <- function(mat, by, percentiles, by_label = N
         xlim <- c(0, number_of_categories)
     if (is.null(ylim))
         ylim <- c(0, do.call(max, lapply(xs, `[[`, "persons")))
+    if (is.null(main))
+        main <- sprintf("Counting samples by number of %s with low metabolites", by_label)
     plot(1, type = "n", xlim = xlim, ylim = ylim,
         xlab = sprintf("Number of %s (N = %d) with low metabolites", by_label, number_of_categories),
         ylab = sprintf("Number of samples (N = %d)", ncol(mat)),
-        main = sprintf("Counting samples by number of %s with low metabolites", by_label))
+        main = main)
     pch <- rep_len(c(21, 24, 22, 25, 23), length(xs))
     transparent_gray <- rgb(0, 0, 0, .5)
     bg <- rep_len(c("white", transparent_gray), length(xs))

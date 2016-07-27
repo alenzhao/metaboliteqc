@@ -5,7 +5,7 @@
 \title{Show how many samples have low measurements in how many groups}
 \usage{
 plot_samples_with_low_metabolites(mat, by, percentiles, by_label = NULL,
-  xlim = NULL, ylim = NULL)
+  xlim = NULL, ylim = NULL, main = NULL)
 }
 \arguments{
 \item{mat}{Matrix with samples as columns and metabolites as rows}
@@ -20,6 +20,8 @@ groups defined by \code{by}}
 \item{xlim}{Limits plotting range on x-axis}
 
 \item{ylim}{Limits plotting range on y-axis}
+
+\item{main}{Title}
 }
 \value{
 Returns \code{NULL} invisibly.
