@@ -384,3 +384,18 @@ find_cell_indices <- function(mat, margin, predicate, ...) {
     cbind(rownames(x)[row(x)[x]],
         colnames(x)[col(x)[x]])
 }
+
+#' Save dataset as tab-delimited plain text file
+#'
+#' @param x Dataset
+#' @param file Filename
+#' @param \dots Passed on to \code{\link[utils]{write.table}}
+#' @details This function is a wrapper around
+#'     \code{\link[utils]{write.table}}.  Refer to the latter's
+#'     documentation for more details.
+#' @return Returns \code{NULL} invisibly.
+#' @export
+write.delim <- function(x, file, ...) {
+    write.table(x, file, quote = FALSE, sep = "\t", ...)
+    invisible()
+}
