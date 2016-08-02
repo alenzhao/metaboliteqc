@@ -511,3 +511,11 @@ save_NAs_per_sample <- function(filename, mat) {
     names(d)[1] <- "SAMPLE_ID"
     write.delim(d, filename, row.names = FALSE)
 }
+
+find_outliers <- function(mat) {
+    outliers <- find_cell_indices(mat, 1, mark_outliers)
+    data.frame(
+        COMP_ID = outliers[, 1, drop = FALSE],
+        SAMPLE_ID = outliers[, 2, drop = FALSE],
+        stringsAsFactors = FALSE)
+}
