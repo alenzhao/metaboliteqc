@@ -433,3 +433,9 @@ plot_NAs_by_run_day_and_pathway <- function(main, filename, mat, run_days, pathw
         by.y = pathways, ylim = ylim)
     dev.off()
 }
+
+plot_measurements_by_run_day <- function(main, filename, mat, run_days, ylab) {
+    jpeg(filename, width = jpeg_width, height = 300, quality = jpeg_quality)
+    bybyboxplot(mat, by.x = run_days, by.y = ylab, main = main)
+    dev.off()
+}
