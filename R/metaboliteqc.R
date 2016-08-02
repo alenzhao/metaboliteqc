@@ -453,3 +453,7 @@ plot_NAs_per_sample <- function(main, filename, mat) {
         ylab = sprintf("Number of samples (N = %d)", ncol(mat)))
     dev.off()
 }
+
+is_in_lower_tail <- function(x, percentage) {
+    x < quantile(x, percentage, na.rm = TRUE)
+}
