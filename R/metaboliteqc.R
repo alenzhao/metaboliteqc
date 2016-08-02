@@ -439,3 +439,17 @@ plot_measurements_by_run_day <- function(main, filename, mat, run_days, ylab) {
     bybyboxplot(mat, by.x = run_days, by.y = ylab, main = main)
     dev.off()
 }
+
+plot_measurements_by_run_day_and_pathway <- function(main, filename, mat, run_days, pathways) {
+    jpeg(filename, width = jpeg_width, height = jpeg_height, quality = jpeg_quality)
+    bybyboxplot(mat, ylim = c(-3, 3), by.x = run_days, by.y = pathways, main = main)
+    dev.off()
+}
+
+plot_NAs_per_sample <- function(main, filename, mat) {
+    jpeg(filename, height = 350)
+    hist_NAs(mat, 2, main = main,
+        xlab = sprintf("Number of missing metabolites (N = %d)", nrow(mat)),
+        ylab = sprintf("Number of samples (N = %d)", ncol(mat)))
+    dev.off()
+}
