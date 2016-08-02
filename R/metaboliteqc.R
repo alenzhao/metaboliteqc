@@ -530,3 +530,15 @@ count_outliers_by_pathway <- function(outliers, pathways, labels) {
     }, outliers, named_pathways, labels)
     Reduce(function(x, y) merge(x, y, by = "Outliers"), ds)
 }
+
+count_outliers_by_run_day <- function(outliers, run_days) {
+    named_run_days <- lapply(run_days, function(run_days) {
+        with(run_days, setNames(RUN_DAY, SAMPLE_ID))
+    })
+    ds <- Map(function(outliers, run_days, label) {
+        d <- as.data.frame(table(run_days[outliers$SAMPLE_ID]))
+        names(d) <- c(sprintf("Run Day (%s)", label), "Outliers")
+        d[order(d$Outliers, decreasing = TRUE), , drop = FALSE]
+    }, outliers, run_days, labels)
+    do.call(cbind, ds)
+}
