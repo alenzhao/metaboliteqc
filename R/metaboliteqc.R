@@ -579,3 +579,9 @@ show_distribution_of_NAs_by_pathway <- function(mat, pathways) {
     rownames(z) <- rownames(y)
     z
 }
+
+save_NAs_per_metabolite <- function(filename, mat) {
+    d <- summarize_NAs(mat, 1)
+    names(d)[1] <- "COMP_ID"
+    write.delim(d, filename, row.names = FALSE)
+}
