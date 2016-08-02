@@ -589,3 +589,34 @@ save_NAs_per_metabolite <- function(filename, mat) {
 cv <- function(x) {
     sd(x, na.rm = TRUE) / mean(x, na.rm = TRUE)
 }
+
+compare_cv_strategies <- function(mat, run_days, outliers, percentage) {
+    set_high_cvs_to_NA <- function(x, percentage) {
+        too_big <- x > quantile(x, percentage, na.rm = TRUE)
+        x[too_big] <- NA
+        x
+    }
+    mat2 <- mat
+    mat2[outliers] <- NA
+    cvs1 <- t(columnwise(cv, t(mat), run_days))
+    cvs2 <- t(columnwise(cv, t(mat2), run_days))
+    cvs3 <- set_high_cvs_to_NA(cvs1, percentage)
+    cvs4 <- set_high_cvs_to_NA(cvs2, percentage)
+    cv_threshold <- .25
+    too_high_cv <- function(cvs, f) {
+        too_high <- apply(cvs, 1, function(x) {
+            f(x, na.rm = TRUE) > cv_threshold
+        })
+        sum(too_high, na.rm = TRUE)
+    }
+    any2 <- function(x, ...) {
+        if (any(x > cv_threshold, na.rm = TRUE)) 1 else 0
+    }
+    data.frame(
+        type = c("any", "median", "mean"),
+        "1" = c(f(cvs1, any2), f(cvs1, median), f(cvs1, mean)),
+        "2" = c(f(cvs2, any2), f(cvs2, median), f(cvs2, mean)),
+        "3" = c(f(cvs3, any2), f(cvs3, median), f(cvs3, mean)),
+        "4" = c(f(cvs4, any2), f(cvs4, median), f(cvs4, mean)),
+        check.names = FALSE)
+}
