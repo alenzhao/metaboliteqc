@@ -505,3 +505,9 @@ plot_samples_with_low_pathways <- function(main, filename, mat, pathways) {
         xlim = c(3, 9), ylim = c(0, 100), main = main)
     dev.off()
 }
+
+save_NAs_per_sample <- function(filename, mat) {
+    d <- summarize_NAs(mat, 2)
+    names(d)[1] <- "SAMPLE_ID"
+    write.delim(d, filename, row.names = FALSE)
+}
