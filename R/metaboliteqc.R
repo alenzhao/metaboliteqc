@@ -413,3 +413,7 @@ mark_outliers <- function(x) {
     sd <- sd(x, na.rm = TRUE)
     abs(x - mean) > 4 * sd
 }
+
+jpeg_width <- 800
+jpeg_height <- 1100
+jpeg_quality <- 100
