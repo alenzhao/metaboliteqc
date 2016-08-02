@@ -585,3 +585,7 @@ save_NAs_per_metabolite <- function(filename, mat) {
     names(d)[1] <- "COMP_ID"
     write.delim(d, filename, row.names = FALSE)
 }
+
+cv <- function(x) {
+    sd(x, na.rm = TRUE) / mean(x, na.rm = TRUE)
+}
