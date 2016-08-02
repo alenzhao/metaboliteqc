@@ -424,3 +424,12 @@ plot_NAs_by_run_day <- function(main, filename, mat, by.x) {
     bybyboxplot(t(x), main = main, by.x = by.x, by.y = "Number of NAs")
     dev.off()
 }
+
+plot_NAs_by_run_day_and_pathway <- function(main, filename, mat, run_days, pathways, ylim) {
+    jpeg(filename, width = jpeg_width, height = jpeg_height, quality = jpeg_quality)
+    x <- t(columnwise(count_NAs, t(mat), run_days))
+    bybyboxplot(x, main = main,
+        by.x = ordered(as.integer(colnames(x))),
+        by.y = pathways, ylim = ylim)
+    dev.off()
+}
