@@ -469,3 +469,31 @@ find_percent_samples_with_low_metabolites <- function(percentage, mat) {
         sum(percent_low_metabolites >= percent, na.rm = TRUE)
     }, integer(1)) / ncol(mat) * 100
 }
+
+plot_percent_samples_with_low_metabolites <- function(main, filename, mat, percentages, xlim = NULL, ylim = NULL) {
+    number_of_samples <- ncol(mat)
+    xs <- lapply(percentages, find_percent_samples_with_low_metabolites, mat)
+    if (is.null(xlim))
+        xlim <- c(0, 100)
+    if (is.null(ylim))
+        ylim <- c(0, 100)
+    cols <- rep_len(c("magenta", "green", "blue", "orange"), length(xs))
+    jpeg(filename, width = jpeg_width, height = 350)
+    par(mar = c(5, 4, 4, 4) + .5)
+    plot(1, type = "n", axes = FALSE, ann = FALSE, xaxs = "i", xlim = xlim, ylim = ylim)
+    abline(h = 0, lty = "dotted")
+    Map(function(x, col) lines(seq(0, 100), x, col = col), xs, cols)
+    title(main)
+    mtext("minimum percentage of low metabolites", side = 1, line = 3)
+    mtext("number of samples", side = 4, line = 3)
+    mtext("percentage of samples", side = 2, line = 3)
+    axis(1)
+    axis(2)
+    at <- pretty(ylim / 100 * number_of_samples)
+    axis(4, at = at / number_of_samples * 100, at)
+    legend("topright", fill = cols, bty = "n", inset = .01,
+        title = "where low means less than the",
+        legend = sprintf("%d %% percentile", 100 * percentages))
+    box()
+    dev.off()
+}
