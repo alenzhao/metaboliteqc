@@ -519,3 +519,14 @@ find_outliers <- function(mat) {
         SAMPLE_ID = outliers[, 2, drop = FALSE],
         stringsAsFactors = FALSE)
 }
+
+count_outliers_by_pathway <- function(outliers, pathways, labels) {
+    named_pathways <- lapply(pathways, function(pathways) {
+        with(pathways, setNames(SUPER_PATHWAY, COMP_ID))
+    })
+    ds <- Map(function(outliers, pathways, label) {
+        as.data.frame(table(pathways[outliers$COMP_ID],
+            dnn = "Outliers"), responseName = label)
+    }, outliers, named_pathways, labels)
+    Reduce(function(x, y) merge(x, y, by = "Outliers"), ds)
+}
