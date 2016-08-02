@@ -552,7 +552,7 @@ count_outliers_by_run_day <- function(outliers, run_days, labels) {
         d <- as.data.frame(table(run_days[outliers$SAMPLE_ID]))
         names(d) <- c(sprintf("Run Day (%s)", label), "Outliers")
         d[order(d$Outliers, decreasing = TRUE), , drop = FALSE]
-    }, outliers, run_days, labels)
+    }, outliers, named_run_days, labels)
     do.call(cbind, ds)
 }
 
