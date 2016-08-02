@@ -543,8 +543,8 @@ count_outliers_by_pathway <- function(outliers, pathways, labels) {
     Reduce(function(x, y) merge(x, y, by = "Outliers"), ds)
 }
 
-count_outliers_by_run_day <- function(outliers, run_days) {
 #' @export
+count_outliers_by_run_day <- function(outliers, run_days, labels) {
     named_run_days <- lapply(run_days, function(run_days) {
         with(run_days, setNames(RUN_DAY, SAMPLE_ID))
     })
