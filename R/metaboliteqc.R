@@ -418,6 +418,7 @@ jpeg_width <- 800
 jpeg_height <- 1100
 jpeg_quality <- 100
 
+#' @export
 plot_NAs_by_run_day <- function(main, filename, mat, by.x) {
     jpeg(filename, width = jpeg_width, height = 300, quality = jpeg_quality)
     x <- apply(mat, 2, count_NAs)
@@ -425,6 +426,7 @@ plot_NAs_by_run_day <- function(main, filename, mat, by.x) {
     dev.off()
 }
 
+#' @export
 plot_NAs_by_run_day_and_pathway <- function(main, filename, mat, run_days, pathways, ylim) {
     jpeg(filename, width = jpeg_width, height = jpeg_height, quality = jpeg_quality)
     x <- t(columnwise(count_NAs, t(mat), run_days))
@@ -434,18 +436,21 @@ plot_NAs_by_run_day_and_pathway <- function(main, filename, mat, run_days, pathw
     dev.off()
 }
 
+#' @export
 plot_measurements_by_run_day <- function(main, filename, mat, run_days, ylab) {
     jpeg(filename, width = jpeg_width, height = 300, quality = jpeg_quality)
     bybyboxplot(mat, by.x = run_days, by.y = ylab, main = main)
     dev.off()
 }
 
+#' @export
 plot_measurements_by_run_day_and_pathway <- function(main, filename, mat, run_days, pathways) {
     jpeg(filename, width = jpeg_width, height = jpeg_height, quality = jpeg_quality)
     bybyboxplot(mat, ylim = c(-3, 3), by.x = run_days, by.y = pathways, main = main)
     dev.off()
 }
 
+#' @export
 plot_NAs_per_sample <- function(main, filename, mat) {
     jpeg(filename, height = 350)
     hist_NAs(mat, 2, main = main,
@@ -454,10 +459,12 @@ plot_NAs_per_sample <- function(main, filename, mat) {
     dev.off()
 }
 
+#' @export
 is_in_lower_tail <- function(x, percentage) {
     x < quantile(x, percentage, na.rm = TRUE)
 }
 
+#' @export
 find_percent_samples_with_low_metabolites <- function(percentage, mat) {
     is_low_in_metabolite <- t(apply(mat, 1, is_in_lower_tail, percentage))
     low_metabolites <- colSums(is_low_in_metabolite, na.rm = TRUE)
@@ -470,6 +477,7 @@ find_percent_samples_with_low_metabolites <- function(percentage, mat) {
     }, integer(1)) / ncol(mat) * 100
 }
 
+#' @export
 plot_percent_samples_with_low_metabolites <- function(main, filename, mat, percentages, xlim = NULL, ylim = NULL) {
     number_of_samples <- ncol(mat)
     xs <- lapply(percentages, find_percent_samples_with_low_metabolites, mat)
@@ -498,6 +506,7 @@ plot_percent_samples_with_low_metabolites <- function(main, filename, mat, perce
     dev.off()
 }
 
+#' @export
 plot_samples_with_low_pathways <- function(main, filename, mat, pathways) {
     jpeg(filename, height = 350)
     plot_samples_with_low_metabolites(mat, by = pathways,
@@ -506,12 +515,14 @@ plot_samples_with_low_pathways <- function(main, filename, mat, pathways) {
     dev.off()
 }
 
+#' @export
 save_NAs_per_sample <- function(filename, mat) {
     d <- summarize_NAs(mat, 2)
     names(d)[1] <- "SAMPLE_ID"
     write.delim(d, filename, row.names = FALSE)
 }
 
+#' @export
 find_outliers <- function(mat) {
     outliers <- find_cell_indices(mat, 1, mark_outliers)
     data.frame(
@@ -520,6 +531,7 @@ find_outliers <- function(mat) {
         stringsAsFactors = FALSE)
 }
 
+#' @export
 count_outliers_by_pathway <- function(outliers, pathways, labels) {
     named_pathways <- lapply(pathways, function(pathways) {
         with(pathways, setNames(SUPER_PATHWAY, COMP_ID))
@@ -532,6 +544,7 @@ count_outliers_by_pathway <- function(outliers, pathways, labels) {
 }
 
 count_outliers_by_run_day <- function(outliers, run_days) {
+#' @export
     named_run_days <- lapply(run_days, function(run_days) {
         with(run_days, setNames(RUN_DAY, SAMPLE_ID))
     })
@@ -543,6 +556,7 @@ count_outliers_by_run_day <- function(outliers, run_days) {
     do.call(cbind, ds)
 }
 
+#' @export
 plot_NAs_per_metabolite <- function(main, filename, mat) {
     jpeg(filename, height = 350)
     hist_NAs(mat, 1, main = main,
@@ -551,6 +565,7 @@ plot_NAs_per_metabolite <- function(main, filename, mat) {
     dev.off()
 }
 
+#' @export
 plot_NAs_per_metabolite_by_pathway <- function(main, filename, mat, pathways, xlim) {
     jpeg(filename, height = 1.2 * jpeg_height, quality = jpeg_quality)
     ds <- split.data.frame(mat, pathways)
@@ -570,6 +585,7 @@ plot_NAs_per_metabolite_by_pathway <- function(main, filename, mat, pathways, xl
     dev.off()
 }
 
+#' @export
 show_distribution_of_NAs_by_pathway <- function(mat, pathways) {
     x <- apply(mat, 1, count_NAs)
     y <- do.call(rbind, by(x, pathways, summary))
@@ -580,16 +596,19 @@ show_distribution_of_NAs_by_pathway <- function(mat, pathways) {
     z
 }
 
+#' @export
 save_NAs_per_metabolite <- function(filename, mat) {
     d <- summarize_NAs(mat, 1)
     names(d)[1] <- "COMP_ID"
     write.delim(d, filename, row.names = FALSE)
 }
 
+#' @export
 cv <- function(x) {
     sd(x, na.rm = TRUE) / mean(x, na.rm = TRUE)
 }
 
+#' @export
 compare_cv_strategies <- function(mat, run_days, outliers, percentage) {
     set_high_cvs_to_NA <- function(x, percentage) {
         too_big <- x > quantile(x, percentage, na.rm = TRUE)
