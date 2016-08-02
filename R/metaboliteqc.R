@@ -542,3 +542,11 @@ count_outliers_by_run_day <- function(outliers, run_days) {
     }, outliers, run_days, labels)
     do.call(cbind, ds)
 }
+
+plot_NAs_per_metabolite <- function(main, filename, mat) {
+    jpeg(filename, height = 350)
+    hist_NAs(mat, 1, main = main,
+        xlab = sprintf("Number of missing samples (N = %d)", ncol(mat)),
+        ylab = sprintf("Number of metabolites (N = %d)", nrow(mat)))
+    dev.off()
+}
