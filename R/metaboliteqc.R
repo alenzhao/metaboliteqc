@@ -550,3 +550,22 @@ plot_NAs_per_metabolite <- function(main, filename, mat) {
         ylab = sprintf("Number of metabolites (N = %d)", nrow(mat)))
     dev.off()
 }
+
+plot_NAs_per_metabolite_by_pathway <- function(main, filename, mat, pathways, xlim) {
+    jpeg(filename, height = 1.2 * jpeg_height, quality = jpeg_quality)
+    ds <- split.data.frame(mat, pathways)
+    par(mfrow = c(length(ds), 1),
+        mar = c(3, 5, 0, 1),
+        oma = c(2, 0, 4, 0))
+    cex.lab <- 1.2
+    for (i in seq_along(ds)) {
+        hist_NAs(ds[[i]], 1, breaks = 10, xlim = xlim,
+            ylab = sprintf("%s (N = %d)", names(ds)[i], nrow(ds[[i]])),
+            xlab = "", main = "", xpd = NA, cex.lab = cex.lab,
+            cex.axis = cex.lab)
+    }
+    title(main, outer = TRUE, cex.main = 1.7)
+    title(xlab = sprintf("Number of missing samples (N = %d)", ncol(mat)),
+        line = 0, outer = TRUE, cex.lab = cex.lab)
+    dev.off()
+}
