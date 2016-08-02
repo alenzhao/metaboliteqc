@@ -569,3 +569,13 @@ plot_NAs_per_metabolite_by_pathway <- function(main, filename, mat, pathways, xl
         line = 0, outer = TRUE, cex.lab = cex.lab)
     dev.off()
 }
+
+show_distribution_of_NAs_by_pathway <- function(mat, pathways) {
+    x <- apply(mat, 1, count_NAs)
+    y <- do.call(rbind, by(x, pathways, summary))
+    z <- apply(100 * y / ncol(mat), 2, function(x) {
+        sprintf("%.1f", x)
+    })
+    rownames(z) <- rownames(y)
+    z
+}
