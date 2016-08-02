@@ -457,3 +457,15 @@ plot_NAs_per_sample <- function(main, filename, mat) {
 is_in_lower_tail <- function(x, percentage) {
     x < quantile(x, percentage, na.rm = TRUE)
 }
+
+find_percent_samples_with_low_metabolites <- function(percentage, mat) {
+    is_low_in_metabolite <- t(apply(mat, 1, is_in_lower_tail, percentage))
+    low_metabolites <- colSums(is_low_in_metabolite, na.rm = TRUE)
+    non_NA_metabolites <- colSums(!is.na(mat))
+    percent_low_metabolites <- 100 * low_metabolites / non_NA_metabolites
+    # Percentage of samples with at least 0, 1, ... percent low
+    # metabolites.
+    vapply(0:100, function(percent) {
+        sum(percent_low_metabolites >= percent, na.rm = TRUE)
+    }, integer(1)) / ncol(mat) * 100
+}
