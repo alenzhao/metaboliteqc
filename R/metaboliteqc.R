@@ -673,3 +673,10 @@ use_ids_as_column_names <- function(data, ids) {
     colnames(data) <- cols
     data
 }
+
+#' @export
+extract_data_matrix <- function(data, starting_at_column, metabolite_id) {
+    m <- as.matrix(data[, seq(starting_at_column, ncol(data))])
+    rownames(m) <- data[[metabolite_id]]
+    m
+}
