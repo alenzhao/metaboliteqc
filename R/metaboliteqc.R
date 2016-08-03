@@ -717,3 +717,8 @@ set_negative_and_zero_to_NA <- function(x) {
 read_as_matrix <- function(filename) {
     as.matrix(read.delim(filename, check.names = FALSE))
 }
+
+#' @export
+count_metabolites_with_high_global_cv <- function(mat) {
+    sum(apply(mat, 1, cv) > .25, na.rm = TRUE)
+}
