@@ -297,10 +297,11 @@ draw_box <- function(stats, width, at) {
 #'
 #' @param stats Output of \code{\link[grDevices]{boxplot.stats}}
 #' @param at x-coordinate of the boxplot
+#' @param width Width of box
 #' @return Returns \code{NULL} invisibly.
-draw_boxplot <- function(stats, at) {
-    draw_box(stats$stats, .6, at)
-    draw_whiskers(stats$stats, .4, at)
+draw_boxplot <- function(stats, at, width) {
+    draw_box(stats$stats, width, at)
+    draw_whiskers(stats$stats, width * 2/3, at)
     draw_outliers(stats$out, at)
     invisible()
 }
@@ -323,7 +324,7 @@ byboxplot <- function(mat, by, ylab, ylim = NULL) {
     par(mar = c(0, 3, 0, 3))
     plot(1, xlim = xlim, ylim = ylim, type = "n", axes = FALSE, ann = FALSE)
     for (i in seq_along(stats)) {
-        draw_boxplot(stats[[i]], at = i)
+        draw_boxplot(stats[[i]], at = i, width = length(stats) / 100)
     }
     mtext(ylab, side = 2, line = 1)
     axis(4)

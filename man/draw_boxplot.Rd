@@ -4,12 +4,14 @@
 \alias{draw_boxplot}
 \title{Draw boxplot}
 \usage{
-draw_boxplot(stats, at)
+draw_boxplot(stats, at, width)
 }
 \arguments{
 \item{stats}{Output of \code{\link[grDevices]{boxplot.stats}}}
 
 \item{at}{x-coordinate of the boxplot}
+
+\item{width}{Width of box}
 }
 \value{
 Returns \code{NULL} invisibly.
