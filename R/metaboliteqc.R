@@ -714,8 +714,8 @@ set_negative_and_zero_to_NA <- function(x) {
 }
 
 #' @export
-read_as_matrix <- function(filename) {
-    as.matrix(read.delim(filename, check.names = FALSE))
+read_as_matrix <- function(filename, colClasses = NA) {
+    as.matrix(read.delim(filename, check.names = FALSE, colClasses = colClasses))
 }
 
 #' @export
