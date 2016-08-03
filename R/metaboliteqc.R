@@ -639,3 +639,37 @@ compare_cv_strategies <- function(mat, run_days, outliers, percentage) {
         "4" = c(f(cvs4, any2), f(cvs4, median), f(cvs4, mean)),
         check.names = FALSE)
 }
+
+#' @export
+read_data <- function(filename) {
+    lines_before_data <- find_lines_to_skip(filename)
+    d <- read.delim(filename, na.strings = "",
+        skip = lines_before_data, stringsAsFactors = FALSE,
+        check.names = FALSE)
+    ids <- find_header_names(filename, "SAMPLE_ID")
+    d <- use_ids_as_column_names(d, ids)
+    d
+}
+
+
+find_lines_to_skip <- function(filename) {
+    min(grep("^\t+", readLines(filename), invert = TRUE)) - 1L
+}
+
+#' @export
+find_header_names <- function(filename, keyword, sep = "\t") {
+    contents <- readLines(filename)
+    header <- grep(keyword, contents, value = TRUE)
+    garbage <- sprintf("^%s+%s%s+", sep, keyword, sep)
+    header_names <- unlist(strsplit(sub(garbage, "", header), sep), use.names = FALSE)
+    header_names[header_names == ""] <- NA
+    header_names
+}
+
+use_ids_as_column_names <- function(data, ids) {
+    cols <- colnames(data)
+    id_columns <- seq(length(cols) - length(ids) + 1L, length(cols))
+    cols[id_columns] <- ids
+    colnames(data) <- cols
+    data
+}
