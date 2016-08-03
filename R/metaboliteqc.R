@@ -622,14 +622,14 @@ compare_cv_strategies <- function(mat, run_days, outliers, percentage) {
     cvs3 <- set_high_cvs_to_NA(cvs1, percentage)
     cvs4 <- set_high_cvs_to_NA(cvs2, percentage)
     cv_threshold <- .25
-    too_high_cv <- function(cvs, f) {
+    any2 <- function(x, ...) {
+        if (any(x > cv_threshold, na.rm = TRUE)) 1 else 0
+    }
+    f <- too_high_cv <- function(cvs, f) {
         too_high <- apply(cvs, 1, function(x) {
             f(x, na.rm = TRUE) > cv_threshold
         })
         sum(too_high, na.rm = TRUE)
-    }
-    any2 <- function(x, ...) {
-        if (any(x > cv_threshold, na.rm = TRUE)) 1 else 0
     }
     data.frame(
         type = c("any", "median", "mean"),
