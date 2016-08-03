@@ -691,3 +691,13 @@ scale_metabolites_to_median_one <- function(mat) {
 extract_and_order_metabolites <- function(mat, metabolites) {
     mat[metabolites, , drop = FALSE]
 }
+
+#' @export
+same_row_names <- function(...) {
+    datasets <- list(...)
+    row_names <- rownames(datasets[[1]])
+    for (d in datasets[-1])
+        if (!all(rownames(d) == row_names))
+            return(FALSE)
+    TRUE
+}
