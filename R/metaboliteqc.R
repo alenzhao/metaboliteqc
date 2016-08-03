@@ -686,3 +686,8 @@ scale_metabolites_to_median_one <- function(mat) {
     metabolite_medians <- apply(mat, 1, median, na.rm = TRUE)
     mat / metabolite_medians
 }
+
+#' @export
+extract_and_order_metabolites <- function(mat, metabolites) {
+    mat[metabolites, , drop = FALSE]
+}
