@@ -567,7 +567,7 @@ plot_NAs_per_metabolite <- function(main, filename, mat) {
 }
 
 #' @export
-plot_NAs_per_metabolite_by_pathway <- function(main, filename, mat, pathways, xlim) {
+plot_NAs_per_metabolite_by_pathway <- function(main, filename, mat, pathways) {
     jpeg(filename, height = 1.2 * jpeg_height, quality = jpeg_quality)
     ds <- split.data.frame(mat, pathways)
     par(mfrow = c(length(ds), 1),
@@ -575,7 +575,7 @@ plot_NAs_per_metabolite_by_pathway <- function(main, filename, mat, pathways, xl
         oma = c(2, 0, 4, 0))
     cex.lab <- 1.2
     for (i in seq_along(ds)) {
-        hist_NAs(ds[[i]], 1, breaks = 10, xlim = xlim,
+        hist_NAs(ds[[i]], 1, breaks = 10, xlim = c(0, ncol(ds[[i]])),
             ylab = sprintf("%s (N = %d)", names(ds)[i], nrow(ds[[i]])),
             xlab = "", main = "", xpd = NA, cex.lab = cex.lab,
             cex.axis = cex.lab)
