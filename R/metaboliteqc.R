@@ -693,6 +693,11 @@ extract_and_order_metabolites <- function(mat, metabolites) {
 }
 
 #' @export
+extract_and_order_samples <- function(mat, samples) {
+    mat[, samples, drop = FALSE]
+}
+
+#' @export
 same_row_names <- function(...) {
     datasets <- list(...)
     row_names <- rownames(datasets[[1]])
