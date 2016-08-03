@@ -701,3 +701,9 @@ same_row_names <- function(...) {
             return(FALSE)
     TRUE
 }
+
+#' @export
+set_negative_and_zero_to_NA <- function(x) {
+    x[x <= 0] <- NA
+    x
+}
