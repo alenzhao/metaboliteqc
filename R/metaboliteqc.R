@@ -641,16 +641,15 @@ compare_cv_strategies <- function(mat, run_days, outliers, percentage) {
 }
 
 #' @export
-read_data <- function(filename) {
+read_data <- function(filename, sample_id = "SAMPLE_ID") {
     lines_before_data <- find_lines_to_skip(filename)
     d <- read.delim(filename, na.strings = "",
         skip = lines_before_data, stringsAsFactors = FALSE,
         check.names = FALSE)
-    ids <- find_header_names(filename, "SAMPLE_ID")
+    ids <- find_header_names(filename, sample_id)
     d <- use_ids_as_column_names(d, ids)
     d
 }
-
 
 find_lines_to_skip <- function(filename) {
     min(grep("^\t+", readLines(filename), invert = TRUE)) - 1L
