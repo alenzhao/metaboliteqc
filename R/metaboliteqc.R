@@ -680,3 +680,9 @@ extract_data_matrix <- function(data, starting_at_column, metabolite_id) {
     rownames(m) <- data[[metabolite_id]]
     m
 }
+
+#' @export
+scale_metabolites_to_median_one <- function(mat) {
+    metabolite_medians <- apply(mat, 1, median, na.rm = TRUE)
+    mat / metabolite_medians
+}
