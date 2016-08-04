@@ -351,13 +351,12 @@ bybyboxplot <- function(mat, by.x, by.y, main = NULL, ylim = NULL, xlab = NULL) 
     ds <- split.data.frame(mat, by.y)
     if (is.null(main))
         main <- "Boxplots"
-    par(mfrow = c(number_of_plots, 1),
-        oma = c(4, 0, 4, 0))
+    par(mfrow = c(number_of_plots, 1), oma = c(4, 0, 4, 0), cex = 1)
     for (i in seq_along(ds)) {
         byboxplot(ds[[i]], by.x, names(ds)[i], ylim = ylim)
     }
     axis(1, at = seq_along(levels(by.x)), labels = levels(by.x), cex.axis = 1)
-    title(main, line = 4, outer = TRUE, cex.main = 1.5)
+    title(main, outer = TRUE)
     if (!is.null(xlab))
         title(xlab = xlab, line = 3, outer = TRUE)
     invisible()
@@ -570,19 +569,13 @@ plot_NAs_per_metabolite <- function(main, filename, mat, width) {
 plot_NAs_per_metabolite_by_pathway <- function(main, filename, mat, pathways, width) {
     jpeg(filename, width = width, height = 1.2 * jpeg_height, quality = jpeg_quality)
     ds <- split.data.frame(mat, pathways)
-    par(mfrow = c(length(ds), 1),
-        mar = c(3, 5, 0, 1),
-        oma = c(2, 0, 4, 0))
-    cex.lab <- 1.2
+    par(mfrow = c(length(ds), 1), mar = c(3, 5, 0, 1), oma = c(2, 0, 4, 0), cex = 1)
     for (i in seq_along(ds)) {
         hist_NAs(ds[[i]], 1, breaks = 10, xlim = c(0, ncol(ds[[i]])),
-            ylab = sprintf("%s (N = %d)", names(ds)[i], nrow(ds[[i]])),
-            xlab = "", main = "", xpd = NA, cex.lab = cex.lab,
-            cex.axis = cex.lab)
+            ylab = names(ds)[i], xlab = "", main = "", xpd = NA)
     }
-    title(main, outer = TRUE, cex.main = 1.7)
-    title(xlab = sprintf("Number of missing samples (N = %d)", ncol(mat)),
-        line = 0, outer = TRUE, cex.lab = cex.lab)
+    title(main, outer = TRUE)
+    title(xlab = sprintf("Number of missing samples (N = %d)", ncol(mat)), line = 0, outer = TRUE)
     dev.off()
 }
 
