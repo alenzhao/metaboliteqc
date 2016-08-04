@@ -515,7 +515,7 @@ plot_samples_with_low_pathways <- function(main, filename, mat, pathways, width,
         ylim <- c(0, ncol(mat))
     jpeg(filename, width = width, height = 350)
     plot_samples_with_low_metabolites(mat, by = pathways,
-        percentiles = c(1, 3, 5, 10), by_label = "pathways",
+        percentiles = c(10, 5, 3, 1), by_label = "pathways",
         xlim = xlim, ylim = ylim, main = main)
     dev.off()
 }
