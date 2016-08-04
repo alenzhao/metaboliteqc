@@ -507,11 +507,15 @@ plot_percent_samples_with_low_metabolites <- function(main, filename, mat, perce
 }
 
 #' @export
-plot_samples_with_low_pathways <- function(main, filename, mat, pathways, width) {
+plot_samples_with_low_pathways <- function(main, filename, mat, pathways, width, xlim = NULL, ylim = NULL) {
+    if (is.null(xlim))
+        xlim <- c(0, length(unique(pathways)))
+    if (is.null(ylim))
+        ylim <- c(0, ncol(mat))
     jpeg(filename, width = width, height = 350)
     plot_samples_with_low_metabolites(mat, by = pathways,
         percentiles = c(1, 3, 5, 10), by_label = "pathways",
-        xlim = c(3, 9), ylim = c(0, 100), main = main)
+        xlim = xlim, ylim = ylim, main = main)
     dev.off()
 }
 
