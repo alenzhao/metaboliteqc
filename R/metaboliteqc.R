@@ -452,8 +452,8 @@ plot_measurements_by_run_day_and_pathway <- function(main, filename, mat, run_da
 }
 
 #' @export
-plot_NAs_per_sample <- function(main, filename, mat) {
-    jpeg(filename, height = 350)
+plot_NAs_per_sample <- function(main, filename, mat, width) {
+    jpeg(filename, width = width, height = 350)
     hist_NAs(mat, 2, main = main,
         xlab = sprintf("Number of missing metabolites (N = %d)", nrow(mat)),
         ylab = sprintf("Number of samples (N = %d)", ncol(mat)))
@@ -479,7 +479,7 @@ find_percent_samples_with_low_metabolites <- function(percentage, mat) {
 }
 
 #' @export
-plot_percent_samples_with_low_metabolites <- function(main, filename, mat, percentages, xlim = NULL, ylim = NULL) {
+plot_percent_samples_with_low_metabolites <- function(main, filename, mat, percentages, xlim = NULL, ylim = NULL, width) {
     number_of_samples <- ncol(mat)
     xs <- lapply(percentages, find_percent_samples_with_low_metabolites, mat)
     if (is.null(xlim))
@@ -487,7 +487,7 @@ plot_percent_samples_with_low_metabolites <- function(main, filename, mat, perce
     if (is.null(ylim))
         ylim <- c(0, 100)
     cols <- rep_len(c("magenta", "green", "blue", "orange"), length(xs))
-    jpeg(filename, width = jpeg_width, height = 350)
+    jpeg(filename, width = width, height = 350)
     par(mar = c(5, 4, 4, 4) + .5)
     plot(1, type = "n", axes = FALSE, ann = FALSE, xaxs = "i", xlim = xlim, ylim = ylim)
     abline(h = 0, lty = "dotted")
