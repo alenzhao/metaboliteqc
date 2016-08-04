@@ -728,3 +728,15 @@ find_sample_type <- function(filename, sample_id, sample_type) {
         SAMPLE_TYPE = find_header_names(filename, sample_type),
         stringsAsFactors = FALSE)
 }
+
+#' @export
+count_samples_per_run_day <- function(study_run_days, reference_run_days) {
+    f <- function(x, label) {
+        d <- as.data.frame(table(x))
+        names(d) <- c("Run day", label)
+        d
+    }
+    d1 <- f(study_run_days, "Study")
+    d2 <- f(reference_run_days, "Reference")
+    cbind(d1, d2)
+}
