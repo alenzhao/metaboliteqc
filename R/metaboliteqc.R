@@ -163,6 +163,7 @@ plot_samples_with_low_metabolites <- function(mat, by, percentiles, by_label = N
         lines(x$categories, x$persons, type = "b", pch = pch[i], bg = bg[i])
     }
     legend("topright", pch = pch[seq_along(xs)], pt.bg = bg[seq_along(xs)],
+        title = "where low means", title.adj = 0,
         legend = paste("mean <", percentiles, "% percentile"), bty = "n")
     invisible()
 }
