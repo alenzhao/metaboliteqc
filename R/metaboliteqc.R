@@ -423,7 +423,7 @@ jpeg_quality <- 100
 plot_NAs_by_run_day <- function(main, filename, mat, by.x, width) {
     jpeg(filename, width = width, height = 300, quality = jpeg_quality)
     x <- apply(mat, 2, count_NAs)
-    bybyboxplot(t(x), main = main, by.x = by.x, by.y = "Number of NAs")
+    bybyboxplot(t(x), main = main, by.x = by.x, by.y = "Number of NAs", xlab = "Run day")
     dev.off()
 }
 
@@ -433,21 +433,21 @@ plot_NAs_by_run_day_and_pathway <- function(main, filename, mat, run_days, pathw
     x <- t(columnwise(count_NAs, t(mat), run_days))
     bybyboxplot(x, main = main,
         by.x = ordered(as.integer(colnames(x))),
-        by.y = pathways, ylim = ylim)
+        by.y = pathways, ylim = ylim, xlab = "Run day")
     dev.off()
 }
 
 #' @export
 plot_measurements_by_run_day <- function(main, filename, mat, run_days, ylab, width) {
     jpeg(filename, width = width, height = 300, quality = jpeg_quality)
-    bybyboxplot(mat, by.x = run_days, by.y = ylab, main = main)
+    bybyboxplot(mat, by.x = run_days, by.y = ylab, main = main, xlab = "Run day")
     dev.off()
 }
 
 #' @export
 plot_measurements_by_run_day_and_pathway <- function(main, filename, mat, run_days, pathways, width) {
     jpeg(filename, width = width, height = jpeg_height, quality = jpeg_quality)
-    bybyboxplot(mat, ylim = c(-3, 3), by.x = run_days, by.y = pathways, main = main)
+    bybyboxplot(mat, ylim = c(-3, 3), by.x = run_days, by.y = pathways, main = main, xlab = "Run day")
     dev.off()
 }
 
