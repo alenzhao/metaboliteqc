@@ -320,7 +320,7 @@ byboxplot <- function(mat, by, ylab, ylim = NULL) {
     stats <- lapply(xs, boxplot.stats)
     if (is.null(ylim))
         ylim <- range(xs, na.rm = TRUE)
-    xlim <- c(1, length(xs))
+    xlim <- c(1, length(xs)) + c(-.5, .5)
     par(mar = c(0, 3, 0, 3))
     plot(1, xlim = xlim, ylim = ylim, type = "n", axes = FALSE, ann = FALSE)
     for (i in seq_along(stats)) {
