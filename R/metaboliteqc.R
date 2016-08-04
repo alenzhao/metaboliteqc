@@ -346,20 +346,20 @@ byboxplot <- function(mat, by, ylab, ylim = NULL) {
 #'     drawn along the y-axis.
 #' @return Returns \code{NULL} invisibly.
 #' @export
-bybyboxplot <- function(mat, by.x, by.y, main = NULL, ylim = NULL) {
+bybyboxplot <- function(mat, by.x, by.y, main = NULL, ylim = NULL, xlab = NULL) {
     number_of_plots <- length(unique(by.y))
     ds <- split.data.frame(mat, by.y)
     if (is.null(main))
         main <- "Boxplots"
     par(mfrow = c(number_of_plots, 1),
-        oma = c(3, 0, 6, 0))
+        oma = c(4, 0, 4, 0))
     for (i in seq_along(ds)) {
         byboxplot(ds[[i]], by.x, names(ds)[i], ylim = ylim)
-        if (i == 1L)
-            axis(3, at = seq_along(levels(by.x)), labels = levels(by.x), cex.axis = 1)
     }
     axis(1, at = seq_along(levels(by.x)), labels = levels(by.x), cex.axis = 1)
     title(main, line = 4, outer = TRUE, cex.main = 1.5)
+    if (!is.null(xlab))
+        title(xlab = xlab, line = 3, outer = TRUE)
     invisible()
 }
 
