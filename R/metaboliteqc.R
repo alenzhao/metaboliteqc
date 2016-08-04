@@ -720,3 +720,11 @@ read_as_matrix <- function(filename, colClasses = NA) {
 count_metabolites_with_high_global_cv <- function(mat) {
     sum(apply(mat, 1, cv) > .25, na.rm = TRUE)
 }
+
+#' @export
+find_sample_type <- function(filename, sample_id, sample_type) {
+    data.frame(
+        SAMPLE_ID = find_header_names(filename, sample_id),
+        SAMPLE_TYPE = find_header_names(filename, sample_type),
+        stringsAsFactors = FALSE)
+}
