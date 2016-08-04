@@ -324,7 +324,7 @@ byboxplot <- function(mat, by, ylab, ylim = NULL) {
     par(mar = c(0, 3, 0, 3))
     plot(1, xlim = xlim, ylim = ylim, type = "n", axes = FALSE, ann = FALSE)
     for (i in seq_along(stats)) {
-        draw_boxplot(stats[[i]], at = i, width = length(stats) / 100)
+        draw_boxplot(stats[[i]], at = i, width = .6)
     }
     mtext(ylab, side = 2, line = 1)
     axis(4)
