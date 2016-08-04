@@ -339,6 +339,7 @@ byboxplot <- function(mat, by, ylab, ylim = NULL) {
 #' @param by.y Factor to group rows of \code{mat} into subsets
 #' @param main Title
 #' @param ylim y-axis range to use for all subplots
+#' @param xlab Label for x-axis
 #' @details The \code{by.x} argument has suffix "x" because the
 #'     subsets of columns that \code{by.x} creates will be drawn along
 #'     the x-axis.  Similarly, the \code{by.y} argument has suffix "y"

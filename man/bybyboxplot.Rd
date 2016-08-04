@@ -4,7 +4,7 @@
 \alias{bybyboxplot}
 \title{Draw boxplots for rectangular subsets of matrix}
 \usage{
-bybyboxplot(mat, by.x, by.y, main = NULL, ylim = NULL)
+bybyboxplot(mat, by.x, by.y, main = NULL, ylim = NULL, xlab = NULL)
 }
 \arguments{
 \item{mat}{Matrix}
@@ -16,6 +16,8 @@ bybyboxplot(mat, by.x, by.y, main = NULL, ylim = NULL)
 \item{main}{Title}
 
 \item{ylim}{y-axis range to use for all subplots}
+
+\item{xlab}{Label for x-axis}
 }
 \value{
 Returns \code{NULL} invisibly.
