@@ -502,8 +502,8 @@ plot_percent_samples_with_low_metabolites <- function(main, filename, mat, perce
     at <- pretty(ylim / 100 * number_of_samples)
     axis(4, at = at / number_of_samples * 100, at)
     legend("topright", fill = cols, bty = "n", inset = .01,
-        title = "where low means less than the",
-        legend = sprintf("%d %% percentile", 100 * percentages))
+        title = "where low means", title.adj = 0,
+        legend = sprintf("< %d %% percentile", 100 * percentages))
     box()
     dev.off()
 }
