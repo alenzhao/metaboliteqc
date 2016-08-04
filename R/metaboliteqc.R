@@ -420,8 +420,8 @@ jpeg_height <- 1100
 jpeg_quality <- 100
 
 #' @export
-plot_NAs_by_run_day <- function(main, filename, mat, by.x) {
-    jpeg(filename, width = jpeg_width, height = 300, quality = jpeg_quality)
+plot_NAs_by_run_day <- function(main, filename, mat, by.x, width) {
+    jpeg(filename, width = width, height = 300, quality = jpeg_quality)
     x <- apply(mat, 2, count_NAs)
     bybyboxplot(t(x), main = main, by.x = by.x, by.y = "Number of NAs")
     dev.off()
