@@ -428,8 +428,8 @@ plot_NAs_by_run_day <- function(main, filename, mat, by.x, width) {
 }
 
 #' @export
-plot_NAs_by_run_day_and_pathway <- function(main, filename, mat, run_days, pathways, ylim) {
-    jpeg(filename, width = jpeg_width, height = jpeg_height, quality = jpeg_quality)
+plot_NAs_by_run_day_and_pathway <- function(main, filename, mat, run_days, pathways, ylim, width) {
+    jpeg(filename, width = width, height = jpeg_height, quality = jpeg_quality)
     x <- t(columnwise(count_NAs, t(mat), run_days))
     bybyboxplot(x, main = main,
         by.x = ordered(as.integer(colnames(x))),
@@ -438,15 +438,15 @@ plot_NAs_by_run_day_and_pathway <- function(main, filename, mat, run_days, pathw
 }
 
 #' @export
-plot_measurements_by_run_day <- function(main, filename, mat, run_days, ylab) {
-    jpeg(filename, width = jpeg_width, height = 300, quality = jpeg_quality)
+plot_measurements_by_run_day <- function(main, filename, mat, run_days, ylab, width) {
+    jpeg(filename, width = width, height = 300, quality = jpeg_quality)
     bybyboxplot(mat, by.x = run_days, by.y = ylab, main = main)
     dev.off()
 }
 
 #' @export
-plot_measurements_by_run_day_and_pathway <- function(main, filename, mat, run_days, pathways) {
-    jpeg(filename, width = jpeg_width, height = jpeg_height, quality = jpeg_quality)
+plot_measurements_by_run_day_and_pathway <- function(main, filename, mat, run_days, pathways, width) {
+    jpeg(filename, width = width, height = jpeg_height, quality = jpeg_quality)
     bybyboxplot(mat, ylim = c(-3, 3), by.x = run_days, by.y = pathways, main = main)
     dev.off()
 }
@@ -508,8 +508,8 @@ plot_percent_samples_with_low_metabolites <- function(main, filename, mat, perce
 }
 
 #' @export
-plot_samples_with_low_pathways <- function(main, filename, mat, pathways) {
-    jpeg(filename, height = 350)
+plot_samples_with_low_pathways <- function(main, filename, mat, pathways, width) {
+    jpeg(filename, width = width, height = 350)
     plot_samples_with_low_metabolites(mat, by = pathways,
         percentiles = c(1, 3, 5, 10), by_label = "pathways",
         xlim = c(3, 9), ylim = c(0, 100), main = main)
@@ -558,8 +558,8 @@ count_outliers_by_run_day <- function(outliers, run_days, labels) {
 }
 
 #' @export
-plot_NAs_per_metabolite <- function(main, filename, mat) {
-    jpeg(filename, height = 350)
+plot_NAs_per_metabolite <- function(main, filename, mat, width) {
+    jpeg(filename, width = width, height = 350)
     hist_NAs(mat, 1, main = main,
         xlab = sprintf("Number of missing samples (N = %d)", ncol(mat)),
         ylab = sprintf("Number of metabolites (N = %d)", nrow(mat)))
@@ -567,8 +567,8 @@ plot_NAs_per_metabolite <- function(main, filename, mat) {
 }
 
 #' @export
-plot_NAs_per_metabolite_by_pathway <- function(main, filename, mat, pathways) {
-    jpeg(filename, height = 1.2 * jpeg_height, quality = jpeg_quality)
+plot_NAs_per_metabolite_by_pathway <- function(main, filename, mat, pathways, width) {
+    jpeg(filename, width = width, height = 1.2 * jpeg_height, quality = jpeg_quality)
     ds <- split.data.frame(mat, pathways)
     par(mfrow = c(length(ds), 1),
         mar = c(3, 5, 0, 1),
