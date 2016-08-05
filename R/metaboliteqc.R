@@ -698,10 +698,15 @@ extract_and_order_samples <- function(mat, samples) {
 
 #' @export
 same_row_names <- function(...) {
-    datasets <- list(...)
-    row_names <- rownames(datasets[[1]])
-    for (d in datasets[-1])
-        if (!all(rownames(d) == row_names))
+    same(rownames, ...)
+}
+
+#' @export
+same <- function(f, ...) {
+    xs <- list(...)
+    reference <- f(xs[[1]])
+    for (x in xs[-1])
+        if (!identical(f(x), reference))
             return(FALSE)
     TRUE
 }
