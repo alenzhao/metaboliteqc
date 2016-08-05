@@ -763,3 +763,8 @@ count_negative_and_zero_measurements <- function(matrices) {
     dimnames(counts) <- list(c("negative", "zero"), names(matrices))
     counts
 }
+
+#' @export
+`%c%` <- function(f, g) {
+    function(x) f(g(x))
+}
