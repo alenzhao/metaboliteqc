@@ -748,3 +748,13 @@ count_samples_and_metabolites <- function(matrices) {
     dimnames(counts) <- list(c("samples", "metabolites"), names(matrices))
     counts
 }
+
+#' @export
+count_negative_and_zero_measurements <- function(matrices) {
+    counts <- do.call(cbind, lapply(matrices, function(m) {
+        x <- as.vector(m)
+        c(sum(x < 0, na.rm = TRUE), sum(x == 0, na.rm = TRUE))
+    }))
+    dimnames(counts) <- list(c("negative", "zero"), names(matrices))
+    counts
+}
