@@ -741,3 +741,10 @@ count_samples_per_run_day <- function(study_run_days, reference_run_days) {
     d2 <- f(reference_run_days, "Reference")
     cbind(d1, d2)
 }
+
+#' @export
+count_samples_and_metabolites <- function(matrices) {
+    counts <- do.call(cbind, lapply(matrices, function(m) c(ncol(m), nrow(m))))
+    dimnames(counts) <- list(c("samples", "metabolites"), names(matrices))
+    counts
+}
