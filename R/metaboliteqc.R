@@ -446,9 +446,9 @@ plot_measurements_by_run_day <- function(main, filename, mat, run_days, ylab, wi
 }
 
 #' @export
-plot_measurements_by_run_day_and_pathway <- function(main, filename, mat, run_days, pathways, width) {
+plot_measurements_by_run_day_and_pathway <- function(main, filename, mat, run_days, pathways, width, ylim = NULL) {
     jpeg(filename, width = width, height = jpeg_height, quality = jpeg_quality)
-    bybyboxplot(mat, ylim = c(-3, 3), by.x = run_days, by.y = pathways, main = main, xlab = "Run day")
+    bybyboxplot(mat, ylim = ylim, by.x = run_days, by.y = pathways, main = main, xlab = "Run day")
     dev.off()
 }
 
