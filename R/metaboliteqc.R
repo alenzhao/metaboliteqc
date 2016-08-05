@@ -702,8 +702,8 @@ same_row_names <- function(...) {
 }
 
 #' @export
-same <- function(f, ...) {
-    xs <- list(...)
+same <- function(f, ..., args = NULL) {
+    xs <- if (is.null(args)) list(...) else args
     reference <- f(xs[[1]])
     for (x in xs[-1])
         if (!identical(f(x), reference))
