@@ -135,10 +135,10 @@ count_below_percentile <- function(mat, by, f, percentile, ...) {
 #'     percentile in N groups.
 #' @return Returns \code{NULL} invisibly.
 #' @export
-plot_samples_with_low_metabolites <- function(mat, by, percentiles, by_label = NULL, xlim = NULL, ylim = NULL, main = NULL) {
+plot_samples_with_low_median_metabolites <- function(mat, by, percentiles, by_label = NULL, xlim = NULL, ylim = NULL, main = NULL) {
     number_of_categories <- length(unique(by))
     xs <- lapply(percentiles, function(percentile) {
-        x <- count_below_percentile(mat, by, mean, percentile, na.rm = TRUE)
+        x <- count_below_percentile(mat, by, median, percentile, na.rm = TRUE)
         f <- factor(x, levels = seq(0, number_of_categories))
         tbl <- table(f)
         data.frame(categories = as.integer(names(tbl)), persons = as.integer(tbl))
@@ -515,7 +515,7 @@ plot_samples_with_low_pathways <- function(main, filename, mat, pathways, width,
     if (is.null(ylim))
         ylim <- c(0, ncol(mat))
     jpeg(filename, width = width, height = 350)
-    plot_samples_with_low_metabolites(mat, by = pathways,
+    plot_samples_with_low_median_metabolites(mat, by = pathways,
         percentiles = c(10, 5, 3, 1), by_label = "pathways",
         xlim = xlim, ylim = ylim, main = main)
     dev.off()
