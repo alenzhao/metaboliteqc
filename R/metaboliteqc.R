@@ -850,6 +850,8 @@ each_metabolite <- function(mat, f, ...) {
 #'     using the corresponding level of \code{run_days}.
 #' @export
 each_run_day <- function(mat, run_days, f, ...) {
+    if (is.vector(mat))
+        mat <- matrix(mat, nrow = 1)
     lapply(lapply(split.data.frame(t(mat), run_days), t), f, ...)
 }
 
@@ -864,5 +866,7 @@ each_run_day <- function(mat, run_days, f, ...) {
 #'     using the corresponding level of \code{pathways}.
 #' @export
 each_pathway <- function(mat, pathways, f, ...) {
+    if (is.vector(mat))
+        mat <- matrix(mat, ncol = 1)
     lapply(split.data.frame(mat, pathways), f, ...)
 }
