@@ -480,8 +480,9 @@ find_percent_samples_with_low_metabolites <- function(percentage, mat) {
 }
 
 #' @export
-plot_percent_samples_with_low_metabolites <- function(main, filename, mat, percentages, xlim = NULL, ylim = NULL, width) {
+plot_percent_samples_with_low_metabolites <- function(main, filename, mat, xlim = NULL, ylim = NULL, width) {
     number_of_samples <- ncol(mat)
+    percentages <- c(.1, .05, .03, .01)
     xs <- lapply(percentages, find_percent_samples_with_low_metabolites, mat)
     if (is.null(xlim))
         xlim <- c(0, 100)
