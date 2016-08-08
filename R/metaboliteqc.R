@@ -480,6 +480,11 @@ find_percent_samples_with_low_metabolites <- function(percentage, mat) {
 }
 
 #' @export
+count_metabolites_per_sample <- function(mat, f, ...) {
+    colSums(apply(mat, 2, f, ...))
+}
+
+#' @export
 plot_percent_samples_with_low_metabolites <- function(main, filename, mat, xlim = NULL, ylim = NULL, width) {
     number_of_samples <- ncol(mat)
     percentages <- c(.1, .05, .03, .01)
