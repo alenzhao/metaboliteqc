@@ -838,3 +838,31 @@ each_metabolite <- function(mat, f, ...) {
     else
         t(x)
 }
+
+#' Apply function to every run day
+#'
+#' @param mat Matrix with samples as columns and metabolites as rows
+#' @param run_days Factor of length \code{ncol(mat)} used to split
+#'     samples by run day
+#' @param f Function to apply to run day subsets of \code{mat}
+#' @param \dots Further arguments passed to \code{f}
+#' @return A list with one element per run day.  Elements are named
+#'     using the corresponding level of \code{run_days}.
+#' @export
+each_run_day <- function(mat, run_days, f, ...) {
+    lapply(lapply(split.data.frame(t(mat), run_days), t), f, ...)
+}
+
+#' Apply function to every pathway
+#'
+#' @param mat Matrix with samples as columns and metabolites as rows
+#' @param pathways Factor of length \code{nrow(mat)} used to split
+#'     metabolites by pathway
+#' @param f Function to apply to pathway subsets of \code{mat}
+#' @param \dots Further arguments passed to \code{f}
+#' @return A list with one element per pathway.  Elements are named
+#'     using the corresponding level of \code{pathways}.
+#' @export
+each_pathway <- function(mat, pathways, f, ...) {
+    lapply(split.data.frame(mat, pathways), f, ...)
+}
