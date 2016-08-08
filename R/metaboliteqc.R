@@ -802,3 +802,39 @@ count_measurements_per_run_day <- function(matrices, run_days) {
         d
     }, matrices, run_days, names(matrices))))
 }
+
+#' Apply function to every sample
+#'
+#' @param mat Matrix with samples as columns and metabolites as rows
+#' @param f Function to apply to samples
+#' @param \dots Further arguments passed to \code{f}
+#' @return If \code{f} returns a vector of length 1,
+#'     \code{each_sample} returns a vector with one element per
+#'     sample.  Otherwise if \code{f} returns a vector of the same
+#'     length as its argument, \code{each_sample} returns a matrix
+#'     with one column per sample, that is, the result will have the
+#'     same dimensions as \code{mat}.
+#' @export
+each_sample <- function(mat, f, ...) {
+    apply(mat, 2, f, ...)
+}
+
+#' Apply function to every metabolite
+#'
+#' @param mat Matrix with samples as columns and metabolites as rows
+#' @param f Function to apply to metabolites
+#' @param \dots Further arguments passed to \code{f}
+#' @return If \code{f} returns a vector of length 1,
+#'     \code{each_metabolite} returns a vector with one element per
+#'     metabolite.  Otherwise if \code{f} returns a vector of the same
+#'     length as its argument, \code{each_metabolite} returns a matrix
+#'     with one row per metabolite, that is, the result will have the
+#'     same dimensions as \code{mat}.
+#' @export
+each_metabolite <- function(mat, f, ...) {
+    x <- apply(mat, 1, f, ...)
+    if (is.vector(x))
+        x
+    else
+        t(x)
+}
