@@ -791,3 +791,14 @@ count_negative_and_zero_measurements <- function(matrices) {
 `%c%` <- function(f, g) {
     function(x) f(g(x))
 }
+
+#' @export
+count_measurements_per_run_day <- function(matrices, run_days) {
+    stopifnot(same(objects = run_days, key = levels))
+    do.call(cbind, unname(Map(function(mat, run_days, label) {
+        d <- data.frame(run_days = levels(run_days),
+            measurements = tapply(run_days, run_days, length) * nrow(mat))
+        names(d) <- c("Run day", label)
+        d
+    }, matrices, run_days, names(matrices))))
+}
