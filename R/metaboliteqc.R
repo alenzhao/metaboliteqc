@@ -696,6 +696,22 @@ extract_and_order_samples <- function(mat, samples) {
     mat[, samples, drop = FALSE]
 }
 
+#' Check whether objects are identical
+#'
+#' @param \dots Any number of objects
+#' @param key Function to apply to objects before comparison (see
+#'     Details)
+#' @details If \code{key} is \code{NULL}, objects are compared
+#'     directly.  If \code{key} is a function, it will be applied to
+#'     objects and the return values will be compared.  This makes it
+#'     possible to compare objects in terms of arbitrary attributes.
+#' @return Returns \code{TRUE} if all objects are identical, otherwise
+#'     returns \code{FALSE}.
+#' @examples
+#' \dontrun{
+#' # Do data frames d1, d2, and d3 have the same row names?
+#' same(d1, d2, d3, key = rownames)
+#' }
 #' @export
 same <- function(..., key = NULL) {
     xs <- list(...)
