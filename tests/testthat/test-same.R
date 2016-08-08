@@ -30,3 +30,7 @@ test_that("same(x, y) <==> same(y, x)", {
     expect_false(same(x, y))
     expect_false(same(y, x))
 })
+
+test_that("with objects argument", {
+    expect_true(same(-1, objects = list(1, -1), key = abs))
+})

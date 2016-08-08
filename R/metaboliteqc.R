@@ -699,22 +699,32 @@ extract_and_order_samples <- function(mat, samples) {
 #' Check whether objects are identical
 #'
 #' @param \dots Any number of objects
+#' @param objects List of objects to be compared
 #' @param key Function to apply to objects before comparison (see
 #'     Details)
-#' @details If \code{key} is \code{NULL}, objects are compared
-#'     directly.  If \code{key} is a function, it will be applied to
-#'     objects and the return values will be compared.  This makes it
-#'     possible to compare objects in terms of arbitrary attributes.
+#' @details If the objects to be compared are referenced by separate
+#'     variables, use the \dots argument.  If you have a list of
+#'     objects, use the \code{objects} argument.  You are free to use
+#'     both the \dots and \code{objects} arguments at the same time.
+#'
+#'     If \code{key} is \code{NULL}, objects are compared directly.
+#'     If \code{key} is a function, it will be applied to the objects
+#'     and the return values will be compared.  This makes it possible
+#'     to compare objects in terms of arbitrary attributes.
 #' @return Returns \code{TRUE} if all objects are identical, otherwise
 #'     returns \code{FALSE}.
 #' @examples
 #' \dontrun{
 #' # Do data frames d1, d2, and d3 have the same row names?
 #' same(d1, d2, d3, key = rownames)
+#' # Equivalent to:
+#' same(objects = list(d1, d2, d3), key = rownames)
+#' # Or:
+#' same(d1, objects = list(d2, d3), key = rownames)
 #' }
 #' @export
-same <- function(..., key = NULL) {
-    xs <- list(...)
+same <- function(..., objects = NULL, key = NULL) {
+    xs <- c(list(...), objects)
     if (is.null(key))
         key <- identity
     reference <- key(xs[[1]])
