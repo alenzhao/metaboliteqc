@@ -697,11 +697,6 @@ extract_and_order_samples <- function(mat, samples) {
 }
 
 #' @export
-same_row_names <- function(...) {
-    same(rownames, ...)
-}
-
-#' @export
 same <- function(..., key = NULL) {
     xs <- list(...)
     if (is.null(key))
