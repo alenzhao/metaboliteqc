@@ -894,3 +894,12 @@ find_percentage_of_low_metabolites <- function(percentage, mat) {
     non_NA_metabolites <- colSums(!is.na(mat))
     100 * low_metabolites / non_NA_metabolites
 }
+
+#' @export
+set_outliers_to_NA <- function(data, filename) {
+    outliers <- read.delim(filename, colClasses = "character")
+    outliers <- outliers[outliers$COMP_ID %in% rownames(data) &
+                         outliers$SAMPLE_ID %in% colnames(data), , drop = FALSE]
+    data[as.matrix(outliers)] <- NA
+    data
+}
