@@ -635,7 +635,7 @@ compare_cv_strategies <- function(mat, run_days, outliers, percentage) {
         too_high <- apply(cvs, 1, function(x) {
             f(x, na.rm = TRUE) > cv_threshold
         })
-        sum(too_high, na.rm = TRUE)
+        sum(is.na(too_high) | too_high)
     }
     data.frame(
         type = c("any", "median", "mean"),
