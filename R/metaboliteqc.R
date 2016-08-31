@@ -886,3 +886,11 @@ each_pathway <- function(mat, pathways, f, ...) {
         mat <- matrix(mat, ncol = 1)
     lapply(split.data.frame(mat, pathways), f, ...)
 }
+
+#' @export
+find_percentage_of_low_metabolites <- function(percentage, mat) {
+    is_low_in_metabolite <- t(apply(mat, 1, is_in_lower_tail, percentage))
+    low_metabolites <- colSums(is_low_in_metabolite, na.rm = TRUE)
+    non_NA_metabolites <- colSums(!is.na(mat))
+    100 * low_metabolites / non_NA_metabolites
+}
