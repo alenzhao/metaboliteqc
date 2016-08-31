@@ -647,6 +647,16 @@ compare_cv_strategies <- function(mat, run_days, outliers, percentage) {
 }
 
 #' @export
+compute_median_cv <- function(data, run_days, min_obs) {
+    run_day_cv <- t(columnwise(cv, t(data), run_days))
+    strict_median <- function(x) {
+        if (sum(!is.na(x)) < min_obs) NA else median(x, na.rm = TRUE)
+    }
+    x <- apply(run_day_cv, 1, strict_median)
+    data.frame(COMP_ID = names(x), cv = as.numeric(x), stringsAsFactors = FALSE)
+}
+
+#' @export
 read_data <- function(filename, sample_id = "SAMPLE_ID") {
     lines_before_data <- find_lines_to_skip(filename)
     d <- read.delim(filename, na.strings = "",
