@@ -903,3 +903,15 @@ set_outliers_to_NA <- function(data, filename) {
     data[as.matrix(outliers)] <- NA
     data
 }
+
+#' @export
+create_id_table <- function(filename, sample_id = "SAMPLE_ID") {
+    SAMPLE_ID <- find_header_names(filename, sample_id)
+    SAMPLE_NAME <- find_header_names(filename, "SAMPLE_NAME")
+    CLIENT_IDENTIFIER <- find_header_names(filename, "CLIENT_IDENTIFIER")
+    if (same(SAMPLE_ID, SAMPLE_NAME, CLIENT_IDENTIFIER, key = length))
+        data.frame(SAMPLE_ID, SAMPLE_NAME, CLIENT_IDENTIFIER)
+    else if (same(SAMPLE_ID, SAMPLE_NAME, key = length)) {
+        data.frame(SAMPLE_ID, SAMPLE_NAME)
+    }
+}
